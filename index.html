@@ -486,6 +486,7 @@ const CONFIG = {
   instagram: "filip.trener",
   gym:       "Power Gym",                 // naziv teretane (primer)
   address:   "Ćuprija",
+  web3formsKey: "4a35f4bf-cbf2-40c9-aac6-28fa2606882d",                      // ključ sa web3forms.com (ako je upisan, koristi se Web3Forms)
   directPost: true                       // true = klasično slanje forme (za GitHub/hosting)
 };
 /* ==================================================== */
@@ -630,6 +631,18 @@ const form=document.getElementById("form"),status=document.getElementById("statu
 function buildMessage(d){
   return `Novi upit sa sajta\nIme: ${d.ime}\nTelefon: ${d.telefon}\nEmail: ${d.email||"-"}\nCilj: ${d.cilj}\nPaket: ${d.paket}\nPrvi put sa trenerom: ${d.prvi}\nPoruka: ${d.poruka||"-"}`;
 }
+function showFallback(d,reason){
+  const msg=buildMessage(d);
+  status.className="status warn";
+  status.innerHTML=`<span></span><div class="acts"><a class="btn btn-primary" target="_blank" rel="noopener"></a><a class="btn btn-ghost"></a><button type="button" class="btn btn-ghost"></button></div><small style="color:var(--muted)"></small>`;
+  status.querySelector("span").textContent=t("failMsg");
+  const [wa,ml]=status.querySelectorAll("a"),cp=status.querySelector("button");
+  wa.href="https://wa.me/"+CONFIG.whatsapp+"?text="+encodeURIComponent(msg);wa.textContent=t("waBtn");
+  ml.href="mailto:"+CONFIG.email+"?subject="+encodeURIComponent("Upit: "+d.ime)+"&body="+encodeURIComponent(msg);ml.textContent=t("mailBtn");
+  cp.textContent=t("copyMsg");
+  status.querySelector("small").textContent=CONFIG.email+" · "+CONFIG.phone+(reason?" · "+t("reasonLbl")+": "+reason:"");
+  cp.onclick=()=>{navigator.clipboard.writeText(msg).then(()=>{cp.textContent=t("copied")}).catch(()=>{cp.textContent=CONFIG.email})};
+}
 form.addEventListener("submit",async e=>{
   e.preventDefault();
   const g=id=>document.getElementById(id);
@@ -638,6 +651,20 @@ form.addEventListener("submit",async e=>{
     prvi:g("f-first").checked?"da":"ne",poruka:g("f-msg").value.trim()};
   status.hidden=false;
   if(!d.ime||!d.telefon){status.className="status warn";status.textContent=t("errReq");return;}
+  if(CONFIG.web3formsKey){
+    sendBtn.disabled=true;sendBtn.textContent=t("sending");
+    let ok=false,why="";
+    try{
+      const r=await fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
+        body:JSON.stringify({access_key:CONFIG.web3formsKey,subject:"Novi upit sa sajta: "+d.ime,from_name:"Sajt – Trener Filip",
+          "Ime":d.ime,"Telefon":d.telefon,"Email":d.email||"-","Cilj":d.cilj,"Paket":d.paket,"Prvi put sa trenerom":d.prvi,"Poruka":d.poruka||"-",
+          ...(d.email?{replyto:d.email}:{})})});
+      const j=await r.json().catch(()=>({}));ok=r.ok&&j.success!==false;why=String(j.message||"");
+    }catch(err){why="network"}
+    sendBtn.disabled=false;sendBtn.textContent=t("fSend");
+    if(ok){status.className="status ok";status.textContent=t("okMsg");form.reset();return;}
+    showFallback(d,why);return;
+  }
   if(CONFIG.directPost){
     form.action="https://formsubmit.co/"+CONFIG.email;form.method="POST";
     const back=location.href.split("#")[0].split("?")[0]+"?poslato=1#kontakt";
@@ -663,16 +690,7 @@ form.addEventListener("submit",async e=>{
     status.textContent=t("actMsg").replace("{email}",CONFIG.email);
     return;
   }
-  const msg=buildMessage(d);
-  status.className="status warn";
-  status.innerHTML=`<span></span><div class="acts"><a class="btn btn-primary" target="_blank" rel="noopener"></a><a class="btn btn-ghost"></a><button type="button" class="btn btn-ghost"></button></div><small style="color:var(--muted)"></small>`;
-  status.querySelector("span").textContent=t("failMsg");
-  const [wa,ml]=status.querySelectorAll("a"),cp=status.querySelector("button");
-  wa.href="https://wa.me/"+CONFIG.whatsapp+"?text="+encodeURIComponent(msg);wa.textContent=t("waBtn");
-  ml.href="mailto:"+CONFIG.email+"?subject="+encodeURIComponent("Upit: "+d.ime)+"&body="+encodeURIComponent(msg);ml.textContent=t("mailBtn");
-  cp.textContent=t("copyMsg");
-  status.querySelector("small").textContent=CONFIG.email+" · "+CONFIG.phone+(reason?" · "+t("reasonLbl")+": "+reason:"");
-  cp.onclick=()=>{navigator.clipboard.writeText(msg).then(()=>{cp.textContent=t("copied")}).catch(()=>{cp.textContent=CONFIG.email})};
+  showFallback(d,reason);
 });
 
 // count-up + reveal (content stays visible at rest)
