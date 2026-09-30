@@ -455,7 +455,7 @@ footer.site .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-bet
           </select></label>
       </div>
       <label for="f-msg"><span data-i18n="fMsg">Poruka</span><textarea id="f-msg" name="poruka" data-i18n-ph="fMsgPh" placeholder="Napiši iskustvo, povrede i koji termini ti odgovaraju."></textarea></label>
-      <label class="check" for="f-first"><input type="checkbox" id="f-first" checked><span data-i18n="fFirst">Prvi put treniram sa trenerom</span></label>
+      <label class="check" for="f-first"><input type="checkbox" id="f-first" name="prvi_put" value="da" checked><span data-i18n="fFirst">Prvi put treniram sa trenerom</span></label>
       <button class="btn btn-primary" type="submit" id="sendBtn" data-i18n="fSend">Pošalji upit</button>
       <div id="status" hidden></div>
     </form>
@@ -485,7 +485,8 @@ const CONFIG = {
   viber:     "+381600000000",
   instagram: "filip.trener",
   gym:       "Power Gym",                 // naziv teretane (primer)
-  address:   "Ćuprija"
+  address:   "Ćuprija",
+  directPost: true                       // true = klasično slanje forme (za GitHub/hosting)
 };
 /* ==================================================== */
 
@@ -533,12 +534,16 @@ const T = {
   sending:"Sending…",errReq:"Please enter your name and phone number.",
   okMsg:"Request sent. Filip will get back to you soon.",
   failMsg:"The request couldn't be sent from this page. Send it directly instead:",
+  actMsg:"The form isn't activated yet. FormSubmit just sent an email to {email} (check Spam too). Click “Activate Form” in it, then send the request again.",
+  reasonLbl:"Reason",
   mailBtn:"Open email",waBtn:"Send on WhatsApp",copyMsg:"Copy message"
  }
 };
 const SRX = {chPhone:"Telefon",chEmail:"Email",chIg:"Instagram",chWa:"WhatsApp",chVi:"Viber",chLoc:"Lokacija",copy:"Kopiraj",copied:"Kopirano",
   sending:"Šaljem…",errReq:"Upiši ime i broj telefona.",okMsg:"Upit je poslat. Filip će ti se javiti uskoro.",
-  failMsg:"Upit nije mogao da se pošalje sa ove stranice. Pošalji ga direktno:",mailBtn:"Otvori email",waBtn:"Pošalji na WhatsApp",copyMsg:"Kopiraj poruku"};
+  failMsg:"Upit nije mogao da se pošalje sa ove stranice. Pošalji ga direktno:",mailBtn:"Otvori email",waBtn:"Pošalji na WhatsApp",copyMsg:"Kopiraj poruku",
+  actMsg:"Forma još nije aktivirana. Na {email} je upravo poslat mejl od FormSubmit-a (proveri i Spam). Klikni „Activate Form“ u njemu, pa ponovo pošalji upit.",
+  reasonLbl:"Razlog"};
 
 // capture Serbian originals from the markup
 document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n; if(!(k in T.sr)) T.sr[k]=el.textContent;});
@@ -633,17 +638,31 @@ form.addEventListener("submit",async e=>{
     prvi:g("f-first").checked?"da":"ne",poruka:g("f-msg").value.trim()};
   status.hidden=false;
   if(!d.ime||!d.telefon){status.className="status warn";status.textContent=t("errReq");return;}
+  if(CONFIG.directPost){
+    form.action="https://formsubmit.co/"+CONFIG.email;form.method="POST";
+    const back=location.href.split("#")[0].split("?")[0]+"?poslato=1#kontakt";
+    [["_subject","Novi upit sa sajta: "+d.ime],["_template","table"],["_captcha","false"],["_next",back]].forEach(([n,v])=>{
+      let i=form.querySelector('input[name="'+n+'"]');if(!i){i=document.createElement("input");i.type="hidden";i.name=n;form.appendChild(i)}i.value=v;});
+    sendBtn.disabled=true;sendBtn.textContent=t("sending");status.hidden=true;
+    HTMLFormElement.prototype.submit.call(form);return;
+  }
   sendBtn.disabled=true;sendBtn.textContent=t("sending");
-  let ok=false;
+  let ok=false,reason="";
   try{
     const r=await fetch("https://formsubmit.co/ajax/"+encodeURIComponent(CONFIG.email),{
       method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
       body:JSON.stringify({...d,_subject:"Novi upit sa sajta: "+d.ime,_template:"table",_captcha:"false"})});
     const j=await r.json().catch(()=>({}));
+    reason=String(j.message||"");
     ok=r.ok&&String(j.success)!=="false";
-  }catch(err){ok=false}
+  }catch(err){ok=false;reason=location.protocol==="file:"?"file://":"network"}
   sendBtn.disabled=false;sendBtn.textContent=t("fSend");
   if(ok){status.className="status ok";status.textContent=t("okMsg");form.reset();return;}
+  if(/activat/i.test(reason)){
+    status.className="status ok";
+    status.textContent=t("actMsg").replace("{email}",CONFIG.email);
+    return;
+  }
   const msg=buildMessage(d);
   status.className="status warn";
   status.innerHTML=`<span></span><div class="acts"><a class="btn btn-primary" target="_blank" rel="noopener"></a><a class="btn btn-ghost"></a><button type="button" class="btn btn-ghost"></button></div><small style="color:var(--muted)"></small>`;
@@ -652,7 +671,7 @@ form.addEventListener("submit",async e=>{
   wa.href="https://wa.me/"+CONFIG.whatsapp+"?text="+encodeURIComponent(msg);wa.textContent=t("waBtn");
   ml.href="mailto:"+CONFIG.email+"?subject="+encodeURIComponent("Upit: "+d.ime)+"&body="+encodeURIComponent(msg);ml.textContent=t("mailBtn");
   cp.textContent=t("copyMsg");
-  status.querySelector("small").textContent=CONFIG.email+" · "+CONFIG.phone;
+  status.querySelector("small").textContent=CONFIG.email+" · "+CONFIG.phone+(reason?" · "+t("reasonLbl")+": "+reason:"");
   cp.onclick=()=>{navigator.clipboard.writeText(msg).then(()=>{cp.textContent=t("copied")}).catch(()=>{cp.textContent=CONFIG.email})};
 });
 
@@ -669,6 +688,8 @@ if(io&&!matchMedia("(prefers-reduced-motion: reduce)").matches){
 }
 
 applyLang();
+if(/[?&]poslato=1/.test(location.search)){const st=document.getElementById("status");st.hidden=false;st.className="status ok";st.textContent=t("okMsg");
+  try{history.replaceState(null,"",location.pathname+"#kontakt")}catch(e){}}
 </script>
 
 </body>
