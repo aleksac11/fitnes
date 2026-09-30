@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Filip – personalni fitnes trener u Ćupriji. Treninzi 1 na 1, u paru i online. Prvi trening besplatan.">
+<meta name="theme-color" content="#0B0D0A">
+<meta property="og:title" content="Trener Filip – personalni trening Ćuprija">
+<meta property="og:description" content="Mršavljenje, mišićna masa, funkcionalni trening i početnici. Prvi trening besplatan.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230B0D0A'/%3E%3Ctext x='16' y='24' font-family='Arial Black,Arial' font-weight='900' font-size='20' text-anchor='middle' fill='%23C6FF1A'%3EF%3C/text%3E%3C/svg%3E">
+<title>Filip Personalni Trener</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: dark gym floor — full-bleed bands, a condensed poster headline, a scoreboard strip, a whiteboard timetable. */
+:root{
+  --bg:#0B0D0A;          /* rubber-floor black, slight green bias */
+  --panel:#141712;
+  --panel-2:#1B1F18;
+  --line:#2A3025;
+  --fg:#EEF2E8;
+  --muted:#9AA391;
+  --neon:#C6FF1A;        /* neon zelena */
+  --neon-ink:#0B0D0A;
+  --neon-soft:rgba(198,255,26,.12);
+  --display:"Anton","Impact","Arial Narrow",sans-serif;
+  --body:"Barlow","Segoe UI",Roboto,Arial,sans-serif;
+  --cond:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --r:4px;
+  --wrap:1180px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.6;margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--neon);outline-offset:3px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-transform:uppercase;letter-spacing:.01em;line-height:.95;margin:0;text-wrap:balance}
+h2{font-size:clamp(2.4rem,6vw,4.2rem)}
+h3{font-size:1.6rem}
+p{margin:0}
+.eyebrow{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.18em;font-size:.85rem;color:var(--neon);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:28px;height:3px;background:var(--neon)}
+.lead{color:var(--muted);max-width:62ch;font-size:1.08rem}
+.sec{padding-block:clamp(64px,10vw,120px);border-top:1px solid var(--line)}
+.sec-head{display:grid;gap:18px;margin-bottom:48px}
+.neon{color:var(--neon)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:1rem;padding:15px 26px;border-radius:var(--r);text-decoration:none;border:2px solid var(--neon);cursor:pointer;transition:transform .15s,background .15s,color .15s}
+.btn-primary{background:var(--neon);color:var(--neon-ink)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(198,255,26,.3)}
+.btn-ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--neon);color:var(--neon)}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(11,13,10,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:66px}
+.logo{font-family:var(--display);font-size:1.6rem;text-decoration:none;letter-spacing:.02em;display:flex;align-items:center;gap:8px}
+.logo b{width:10px;height:22px;background:var(--neon);display:inline-block;transform:skewX(-14deg)}
+.nav-links{display:flex;gap:26px;list-style:none;margin:0;padding:0}
+.nav-links a{font-family:var(--cond);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.92rem;text-decoration:none;color:var(--muted)}
+.nav-links a:hover{color:var(--neon)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.lang{display:flex;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.lang button{background:transparent;color:var(--muted);border:0;font-family:var(--cond);font-weight:700;letter-spacing:.08em;padding:7px 11px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--neon);color:var(--neon-ink)}
+.menu-btn{display:none;background:none;border:1px solid var(--line);color:var(--fg);border-radius:var(--r);padding:8px 10px;cursor:pointer;font-family:var(--cond);font-weight:700;letter-spacing:.1em}
+@media (max-width:900px){
+  .nav-links{display:none;position:absolute;top:66px;left:0;right:0;background:var(--bg);flex-direction:column;gap:0;border-bottom:1px solid var(--line)}
+  .nav-links.open{display:flex}
+  .nav-links a{display:block;padding:16px clamp(16px,4vw,40px);border-top:1px solid var(--line);font-size:1.1rem}
+  .menu-btn{display:block}
+  .nav .btn{display:none}
+}
+
+/* promo bar */
+.promo{background:var(--neon);color:var(--neon-ink);font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.1em;text-align:center;padding:9px 16px;font-size:.95rem}
+.promo a{color:var(--neon-ink)}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding-block:clamp(48px,8vw,96px) clamp(40px,6vw,72px)}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(600px 400px at 85% 20%,rgba(198,255,26,.10),transparent 70%),
+  repeating-linear-gradient(90deg,transparent 0 79px,rgba(255,255,255,.025) 79px 80px);pointer-events:none}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,5vw,64px);align-items:center}
+.hero-text{display:grid;gap:26px;min-width:0}
+.hero h1{font-size:clamp(4.6rem,15vw,11rem);line-height:.82}
+.hero h1 .outline{color:transparent;-webkit-text-stroke:2px var(--neon);display:block}
+.hero-sub{font-family:var(--cond);font-weight:600;font-size:clamp(1.2rem,2.4vw,1.6rem);text-transform:uppercase;letter-spacing:.06em}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px}
+.photo{position:relative;border-radius:var(--r);background:
+  repeating-linear-gradient(-45deg,var(--panel) 0 14px,var(--panel-2) 14px 28px);border:1px dashed #3a4233;display:flex;align-items:flex-end;justify-content:flex-start;overflow:hidden;max-width:100%}
+.photo span{font-family:var(--cond);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;color:var(--muted);background:var(--bg);padding:6px 10px;margin:12px;border-radius:2px}
+.hero-photo{aspect-ratio:4/5;width:100%}
+.hero-photo::after{content:"F";position:absolute;right:-12px;top:-40px;font-family:var(--display);font-size:22rem;line-height:1;color:rgba(198,255,26,.07)}
+.tag-float{position:absolute;left:-14px;bottom:28px;background:var(--neon);color:var(--neon-ink);font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:10px 14px;border-radius:var(--r);transform:rotate(-3deg);font-size:.95rem;z-index:2}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-photo{aspect-ratio:4/3}.tag-float{left:12px}}
+
+/* scoreboard */
+.score{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--r);background:var(--panel);margin-top:clamp(40px,6vw,64px)}
+.score div{padding:22px 20px;border-left:1px solid var(--line);display:grid;gap:4px}
+.score div:first-child{border-left:0}
+.score strong{font-family:var(--display);font-weight:400;font-size:clamp(2.2rem,4.5vw,3.2rem);color:var(--neon);line-height:1;font-variant-numeric:tabular-nums}
+.score span{font-family:var(--cond);text-transform:uppercase;letter-spacing:.1em;font-size:.85rem;color:var(--muted)}
+@media (max-width:700px){.score{grid-template-columns:1fr 1fr}.score div:nth-child(3){border-left:0}.score div:nth-child(n+3){border-top:1px solid var(--line)}}
+
+/* ticker */
+.ticker{overflow:hidden;border-block:1px solid var(--line);background:var(--panel);padding-block:14px}
+.ticker-track{display:flex;gap:40px;width:max-content;animation:tick 32s linear infinite;font-family:var(--display);font-size:1.6rem;text-transform:uppercase;white-space:nowrap}
+.ticker-track span{display:flex;align-items:center;gap:40px}
+.ticker-track span::after{content:"";width:12px;height:12px;background:var(--neon);transform:rotate(45deg)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(28px,5vw,64px);align-items:start}
+.about-photo{aspect-ratio:3/4;width:100%}
+.about-body{display:grid;gap:22px;min-width:0}
+.about-body p{color:var(--muted);max-width:62ch}
+.about-body p strong{color:var(--fg)}
+.certs{display:flex;flex-wrap:wrap;gap:10px;list-style:none;padding:0;margin:0}
+.certs li{border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-family:var(--cond);font-weight:600;letter-spacing:.05em;font-size:.95rem}
+.focus{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.focus div{background:var(--bg);padding:20px;display:grid;gap:6px}
+.focus h3{font-size:1.35rem}
+.focus p{font-size:.95rem}
+.focus code{font-family:var(--cond);font-weight:700;color:var(--neon);font-size:.9rem;letter-spacing:.06em}
+@media (max-width:800px){.about-grid{grid-template-columns:1fr}.about-photo{aspect-ratio:4/3}}
+@media (max-width:520px){.focus{grid-template-columns:1fr}}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.svc{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:28px;display:grid;gap:14px;align-content:start;transition:border-color .2s}
+.svc:hover{border-color:var(--neon)}
+.svc .ico{width:48px;height:48px;border-radius:var(--r);background:var(--neon-soft);display:grid;place-items:center}
+.svc .ico svg{width:26px;height:26px;stroke:var(--neon);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.svc p{color:var(--muted)}
+.svc ul{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:.95rem}
+.svc li::before{content:"› ";color:var(--neon);font-weight:700}
+@media (max-width:900px){.services{grid-template-columns:1fr}}
+
+/* pricing */
+.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+.plan{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:30px 26px;display:flex;flex-direction:column;gap:18px}
+.plan.hot{border:2px solid var(--neon);background:linear-gradient(180deg,rgba(198,255,26,.07),var(--panel) 45%)}
+.badge{position:absolute;top:-13px;left:26px;background:var(--neon);color:var(--neon-ink);font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:.8rem;padding:4px 10px;border-radius:2px}
+.plan .kind{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-size:.9rem}
+.price{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.price strong{font-family:var(--display);font-weight:400;font-size:3.4rem;line-height:1;font-variant-numeric:tabular-nums}
+.price span{color:var(--muted);font-family:var(--cond);font-weight:600;letter-spacing:.05em}
+.plan ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;flex:1}
+.plan li{display:flex;gap:10px;align-items:flex-start;font-size:.98rem}
+.plan li::before{content:"";flex:0 0 16px;height:16px;margin-top:5px;background:var(--neon);clip-path:polygon(14% 44%,0 65%,50% 100%,100% 16%,80% 0,43% 62%)}
+.plan .btn{width:100%}
+.price-note{margin-top:22px;color:var(--muted);font-size:.95rem;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.price-note b{color:var(--neon)}
+@media (max-width:900px){.prices{grid-template-columns:1fr}}
+
+/* transformations */
+.trans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:grid}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line)}
+.ba .photo{aspect-ratio:3/4;border:0;border-radius:0}
+.ba .photo span{margin:8px}
+.tbody{padding:18px 20px;display:grid;gap:10px}
+.tstats{display:flex;flex-wrap:wrap;gap:8px}
+.tstats span{font-family:var(--cond);font-weight:700;letter-spacing:.06em;background:var(--neon-soft);color:var(--neon);padding:4px 10px;border-radius:2px;font-size:.95rem;font-variant-numeric:tabular-nums}
+.tbody p{color:var(--muted);font-size:.95rem}
+@media (max-width:900px){.trans{grid-template-columns:1fr}}
+
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.quote{border-left:3px solid var(--neon);padding:6px 0 6px 20px;display:grid;gap:14px;align-content:start}
+.quote blockquote{margin:0;font-size:1.08rem}
+.quote footer{font-family:var(--cond);font-weight:600;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;font-size:.88rem}
+.sample{display:inline-block;border:1px dashed var(--muted);color:var(--muted);font-family:var(--cond);font-weight:700;letter-spacing:.12em;font-size:.72rem;padding:2px 7px;border-radius:2px;text-transform:uppercase;justify-self:start}
+@media (max-width:900px){.quotes{grid-template-columns:1fr}}
+
+/* schedule */
+.board{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.board table{width:100%;border-collapse:collapse;min-width:720px;font-variant-numeric:tabular-nums}
+.board th,.board td{padding:14px 12px;text-align:center;border-bottom:1px solid var(--line);border-left:1px solid var(--line)}
+.board th{font-family:var(--cond);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.88rem;color:var(--muted);background:var(--panel-2)}
+.board th:first-child,.board td:first-child{border-left:0;text-align:left;font-family:var(--cond);font-weight:700;color:var(--fg)}
+.board tr:last-child td{border-bottom:0}
+.slot{display:inline-block;font-family:var(--cond);font-weight:700;font-size:.85rem;letter-spacing:.05em;padding:4px 8px;border-radius:2px;text-transform:uppercase}
+.s-pt{background:var(--neon);color:var(--neon-ink)}
+.s-gr{border:1px solid var(--neon);color:var(--neon)}
+.s-on{background:var(--panel-2);color:var(--fg);border:1px solid var(--line)}
+.s-x{color:#4b5345}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px;color:var(--muted);font-size:.92rem;align-items:center}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,56px)}
+.channels{display:grid;gap:12px;align-content:start}
+.ch{display:flex;align-items:center;gap:16px;padding:16px 18px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);text-decoration:none;transition:border-color .2s}
+.ch:hover{border-color:var(--neon)}
+.ch .ico{width:42px;height:42px;flex:0 0 42px;border-radius:var(--r);background:var(--neon-soft);display:grid;place-items:center}
+.ch svg{width:22px;height:22px;stroke:var(--neon);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ch div{display:grid;min-width:0}
+.ch small{font-family:var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:600}
+.ch strong{font-weight:600;overflow-wrap:anywhere}
+form{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:clamp(20px,3vw,32px);display:grid;gap:16px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label{display:grid;gap:6px;font-family:var(--cond);font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:.85rem;color:var(--muted)}
+input,select,textarea{font:inherit;font-family:var(--body);text-transform:none;letter-spacing:0;font-size:1rem;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--neon);box-shadow:0 0 0 3px var(--neon-soft)}
+textarea{min-height:110px;resize:vertical}
+.check{display:flex;gap:10px;align-items:center;text-transform:none;letter-spacing:0;font-family:var(--body);font-size:.95rem;font-weight:500;color:var(--fg)}
+.check input{width:18px;height:18px;accent-color:var(--neon)}
+.status{border-radius:var(--r);padding:14px 16px;font-size:.98rem;display:grid;gap:10px}
+.status.ok{background:var(--neon-soft);border:1px solid var(--neon)}
+.status.warn{background:var(--panel-2);border:1px solid var(--line)}
+.status .acts{display:flex;flex-wrap:wrap;gap:10px}
+.status .btn{padding:10px 16px;font-size:.9rem}
+@media (max-width:900px){.contact{grid-template-columns:1fr}}
+@media (max-width:520px){.row2{grid-template-columns:1fr}}
+
+/* final cta + footer */
+.final{background:var(--neon);color:var(--neon-ink);padding-block:clamp(48px,8vw,88px)}
+.final .wrap{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
+.final h2{font-size:clamp(2.4rem,7vw,5rem)}
+.final .btn{background:var(--neon-ink);color:var(--neon);border-color:var(--neon-ink)}
+footer.site{padding-block:32px;color:var(--muted);font-size:.9rem}
+footer.site .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+
+.reveal{transition:transform .6s ease,opacity .6s ease}
+.reveal.pre{transform:translateY(18px);opacity:.35}
+</style>
+</head>
+<body>
+
+
+<div class="promo"><span data-i18n="promo">Prvi trening je besplatan</span> — <a href="#kontakt" data-i18n="promoLink">zakaži termin</a></div>
+
+<nav class="nav" aria-label="Glavna navigacija">
+  <div class="wrap">
+    <a class="logo" href="#top"><b></b>FILIP<span class="neon">.</span>FIT</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#o-meni" data-i18n="nAbout">O meni</a></li>
+      <li><a href="#usluge" data-i18n="nServices">Usluge</a></li>
+      <li><a href="#cene" data-i18n="nPrices">Cene</a></li>
+      <li><a href="#rezultati" data-i18n="nResults">Rezultati</a></li>
+      <li><a href="#raspored" data-i18n="nSchedule">Raspored</a></li>
+      <li><a href="#kontakt" data-i18n="nContact">Kontakt</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="Jezik / Language">
+        <button type="button" id="btnSR" aria-pressed="true">SR</button>
+        <button type="button" id="btnEN" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn btn-primary" href="#kontakt" data-i18n="ctaShort">Zakaži</a>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navLinks">MENI</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="eyebrow" data-i18n="heroEyebrow">Personalni trener · Ćuprija</div>
+        <h1>Trener<span class="outline">Filip</span></h1>
+        <p class="hero-sub" data-i18n="heroSub">Snaga. Kondicija. Rezultati koje vidiš u ogledalu.</p>
+        <p class="lead" data-i18n="heroLead">Treninzi 1 na 1, u paru i online. Plan napravljen za tvoje telo, tvoje vreme i tvoj cilj, bilo da skidaš kilograme, gradiš mišiće ili tek ulaziš u teretanu.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#kontakt" data-i18n="heroCta1">Besplatan prvi trening</a>
+          <a class="btn btn-ghost" href="#cene" data-i18n="heroCta2">Pogledaj pakete</a>
+        </div>
+      </div>
+      <div style="position:relative">
+        <div class="photo hero-photo" role="img" aria-label="Mesto za fotografiju Filipa"><span data-i18n="phHero">Fotografija Filipa</span></div>
+        <div class="tag-float" data-i18n="heroTag">8+ godina u teretani</div>
+      </div>
+    </div>
+    <div class="score" aria-label="Brojke">
+      <div><strong data-count="150">150+</strong><span data-i18n="st1">klijenata</span></div>
+      <div><strong data-count="8">8+</strong><span data-i18n="st2">godina iskustva</span></div>
+      <div><strong data-count="2400">2400+</strong><span data-i18n="st3">održanih treninga</span></div>
+      <div><strong data-count="4">4</strong><span data-i18n="st4">oblasti specijalizacije</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<section class="sec" id="o-meni">
+  <div class="wrap about-grid">
+    <div class="photo about-photo reveal" role="img" aria-label="Mesto za fotografiju"><span data-i18n="phAbout">Filip na treningu</span></div>
+    <div class="about-body">
+      <div class="eyebrow" data-i18n="abEyebrow">O meni</div>
+      <h2 data-i18n="abTitle">Treniram ljude, ne samo mišiće</h2>
+      <p data-i18n-html="abP1">Zovem se <strong>Filip</strong> i već više od osam godina radim kao personalni trener u Ćupriji. Počeo sam kao mršav klinac koji nije znao kako da drži šipku, pa tačno znam kako izgleda prvi dan u teretani.</p>
+      <p data-i18n-html="abP2">Moj pristup je jednostavan: <strong>pravilna tehnika, postepeno opterećenje i plan koji možeš da ispratiš</strong>. Svaki trening beležimo, pratimo napredak i menjamo program kad telo to traži.</p>
+      <ul class="certs">
+        <li data-i18n="c1">Licencirani fitnes trener</li>
+        <li data-i18n="c2">Funkcionalni trening</li>
+        <li data-i18n="c3">Osnove sportske ishrane</li>
+        <li data-i18n="c4">Prva pomoć</li>
+      </ul>
+      <div class="focus">
+        <div><code>4×12 · 60s</code><h3 data-i18n="f1t">Mršavljenje</h3><p class="lead" data-i18n="f1p">Kombinacija snage i kondicije koja topi masno tkivo, a čuva mišiće.</p></div>
+        <div><code>5×5 · 80% 1RM</code><h3 data-i18n="f2t">Mišićna masa</h3><p class="lead" data-i18n="f2p">Progresivno opterećenje i jasan plan po nedeljama za rast snage i obima.</p></div>
+        <div><code>EMOM · 20 min</code><h3 data-i18n="f3t">Funkcionalni trening</h3><p class="lead" data-i18n="f3p">Pokretljivost, eksplozivnost i izdržljivost za svakodnevni život i sport.</p></div>
+        <div><code>3×10 · RPE 6</code><h3 data-i18n="f4t">Početnici</h3><p class="lead" data-i18n="f4p">Učimo tehniku od nule, bez straha i bez povreda. Niko te ne gleda čudno.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="usluge">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" data-i18n="svEyebrow">Usluge</div>
+      <h2 data-i18n="svTitle">Izaberi kako treniraš</h2>
+    </div>
+    <div class="services">
+      <article class="svc reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/></svg></div>
+        <h3 data-i18n="s1t">Personalni trening 1 na 1</h3>
+        <p data-i18n="s1p">Ceo sat je posvećen samo tebi. Ispravljam tehniku u svakoj seriji i vodim te kroz plan.</p>
+        <ul><li data-i18n="s1a">Početna procena i merenje</li><li data-i18n="s1b">Program prilagođen cilju</li><li data-i18n="s1c">Praćenje napretka svake nedelje</li></ul>
+      </article>
+      <article class="svc reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c0-3.3 2.7-6 6-6s6 2.7 6 6M14 20c0-2.5 1.3-4.5 3-5 1.7.5 5 2 5 5"/></svg></div>
+        <h3 data-i18n="s2t">Trening u paru i mala grupa</h3>
+        <p data-i18n="s2p">Treniraj sa drugaricom, partnerom ili ekipom do 4 osobe. Više motivacije, niža cena.</p>
+        <ul><li data-i18n="s2a">2 do 4 osobe po terminu</li><li data-i18n="s2b">Kružni i funkcionalni treninzi</li><li data-i18n="s2c">Zajednički cilj, lični pristup</li></ul>
+      </article>
+      <article class="svc reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4M9 8l2 2 4-4"/></svg></div>
+        <h3 data-i18n="s3t">Online coaching</h3>
+        <p data-i18n="s3p">Treniraš gde god da si, a ja pratim svaki korak kroz plan i redovne provere.</p>
+        <ul><li data-i18n="s3a">Mesečni plan treninga</li><li data-i18n="s3b">Video analiza tehnike</li><li data-i18n="s3c">Nedeljni check-in preko poruka</li></ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="cene">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" data-i18n="prEyebrow">Cenovnik</div>
+      <h2 data-i18n="prTitle">Mesečni paketi</h2>
+      <p class="lead" data-i18n="prLead">Cene su mesečne. Članarina u teretani nije uključena.</p>
+    </div>
+    <div class="prices">
+      <article class="plan reveal">
+        <div class="kind" data-i18n="p1k">Online</div>
+        <h3 data-i18n="p1t">Online plan</h3>
+        <div class="price"><strong>6.000</strong><span data-i18n="perMonth">RSD / mesečno</span></div>
+        <ul><li data-i18n="p1a">Individualni plan treninga</li><li data-i18n="p1b">Video analiza tehnike</li><li data-i18n="p1c">Nedeljni check-in</li><li data-i18n="p1d">Podrška preko poruka</li></ul>
+        <a class="btn btn-ghost" href="#kontakt" data-plan="online" data-i18n="choose">Izaberi paket</a>
+      </article>
+      <article class="plan hot reveal">
+        <span class="badge" data-i18n="popular">Najpopularnije</span>
+        <div class="kind" data-i18n="p2k">1 na 1</div>
+        <h3 data-i18n="p2t">Personalni</h3>
+        <div class="price"><strong>15.000</strong><span data-i18n="perMonth">RSD / mesečno</span></div>
+        <ul><li data-i18n="p2a">12 treninga 1 na 1 (3× nedeljno)</li><li data-i18n="p2b">Početna procena i merenja</li><li data-i18n="p2c">Program koji se menja sa napretkom</li><li data-i18n="p2d">Podrška i između treninga</li></ul>
+        <a class="btn btn-primary" href="#kontakt" data-plan="personal" data-i18n="choose">Izaberi paket</a>
+      </article>
+      <article class="plan reveal">
+        <div class="kind" data-i18n="p3k">Par / grupa</div>
+        <h3 data-i18n="p3t">Duo &amp; grupa</h3>
+        <div class="price"><strong>9.000</strong><span data-i18n="perPerson">RSD / osoba</span></div>
+        <ul><li data-i18n="p3a">12 treninga mesečno</li><li data-i18n="p3b">2 do 4 osobe u grupi</li><li data-i18n="p3c">Funkcionalni i kružni trening</li><li data-i18n="p3d">Merenja na početku i kraju meseca</li></ul>
+        <a class="btn btn-ghost" href="#kontakt" data-plan="group" data-i18n="choose">Izaberi paket</a>
+      </article>
+    </div>
+    <p class="price-note"><b data-i18n="noteB">Pojedinačni trening:</b> <span data-i18n="noteT">1.500 RSD. Prvi trening i procena su besplatni, bez obaveze.</span></p>
+  </div>
+</section>
+
+<section class="sec" id="rezultati">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" data-i18n="rsEyebrow">Transformacije</div>
+      <h2 data-i18n="rsTitle">Rezultati klijenata</h2>
+    </div>
+    <div class="trans">
+      <article class="tcard reveal">
+        <div class="ba"><div class="photo" role="img" aria-label="Pre"><span data-i18n="before">Pre</span></div><div class="photo" role="img" aria-label="Posle"><span data-i18n="after">Posle</span></div></div>
+        <div class="tbody"><span class="sample" data-i18n="sample">Primer</span><div class="tstats"><span>−14 kg</span><span data-i18n="t1w">16 nedelja</span></div><p data-i18n="t1p">Mršavljenje uz 3 treninga nedeljno i jednostavne navike u ishrani.</p></div>
+      </article>
+      <article class="tcard reveal">
+        <div class="ba"><div class="photo" role="img" aria-label="Pre"><span data-i18n="before">Pre</span></div><div class="photo" role="img" aria-label="Posle"><span data-i18n="after">Posle</span></div></div>
+        <div class="tbody"><span class="sample" data-i18n="sample">Primer</span><div class="tstats"><span>+6 kg</span><span data-i18n="t2w">6 meseci</span></div><p data-i18n="t2p">Rast mišićne mase i čučanj od 60 do 110 kg.</p></div>
+      </article>
+      <article class="tcard reveal">
+        <div class="ba"><div class="photo" role="img" aria-label="Pre"><span data-i18n="before">Pre</span></div><div class="photo" role="img" aria-label="Posle"><span data-i18n="after">Posle</span></div></div>
+        <div class="tbody"><span class="sample" data-i18n="sample">Primer</span><div class="tstats"><span>−9 cm</span><span data-i18n="t3w">12 nedelja</span></div><p data-i18n="t3p">Početnica bez iskustva, sada samostalno trenira 4 puta nedeljno.</p></div>
+      </article>
+    </div>
+    <div class="quotes">
+      <figure class="quote reveal"><span class="sample" data-i18n="sampleQ">Primer utiska</span><blockquote data-i18n="q1">„Ovde ide utisak klijenta, npr. kako je izgledao prvi trening i šta se promenilo posle par meseci.“</blockquote><footer data-i18n="q1a">Ime klijenta · paket</footer></figure>
+      <figure class="quote reveal"><span class="sample" data-i18n="sampleQ">Primer utiska</span><blockquote data-i18n="q2">„Drugi utisak: šta klijentu najviše znači u radu sa Filipom, tehnika, motivacija ili plan.“</blockquote><footer data-i18n="q2a">Ime klijenta · paket</footer></figure>
+      <figure class="quote reveal"><span class="sample" data-i18n="sampleQ">Primer utiska</span><blockquote data-i18n="q3">„Treći utisak: konkretan rezultat, na primer broj kilograma ili novi lični rekord.“</blockquote><footer data-i18n="q3a">Ime klijenta · paket</footer></figure>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="raspored">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" data-i18n="scEyebrow">Raspored</div>
+      <h2 data-i18n="scTitle">Nedeljni termini</h2>
+      <p class="lead" data-i18n="scLead">Termini se zakazuju unapred. Javi se da proveriš koji su slobodni ove nedelje.</p>
+    </div>
+    <div class="board">
+      <table>
+        <thead><tr><th data-i18n="time">Vreme</th><th data-i18n="d1">Pon</th><th data-i18n="d2">Uto</th><th data-i18n="d3">Sre</th><th data-i18n="d4">Čet</th><th data-i18n="d5">Pet</th><th data-i18n="d6">Sub</th></tr></thead>
+        <tbody id="schedBody"></tbody>
+      </table>
+    </div>
+    <div class="legend"><span class="slot s-pt">1 na 1</span><span class="slot s-gr" data-i18n="lgGr">Grupa</span><span class="slot s-on">Online</span><span data-i18n="lgNote">Nedelja: odmor</span></div>
+  </div>
+</section>
+
+<section class="sec" id="kontakt">
+  <div class="wrap contact">
+    <div style="display:grid;gap:24px;align-content:start;min-width:0">
+      <div class="sec-head" style="margin:0">
+        <div class="eyebrow" data-i18n="ctEyebrow">Kontakt</div>
+        <h2 data-i18n="ctTitle">Zakaži besplatan prvi trening</h2>
+        <p class="lead" data-i18n="ctLead">Pošalji upit ili mi se javi direktno. Odgovaram istog dana.</p>
+      </div>
+      <div class="channels" id="channels"></div>
+    </div>
+    <form id="form" novalidate>
+      <div class="row2">
+        <label for="f-name"><span data-i18n="fName">Ime i prezime</span><input id="f-name" name="ime" required autocomplete="name"></label>
+        <label for="f-phone"><span data-i18n="fPhone">Telefon</span><input id="f-phone" name="telefon" type="tel" required autocomplete="tel" placeholder="06x xxx xxxx"></label>
+      </div>
+      <label for="f-email"><span data-i18n="fEmail">Email</span><input id="f-email" name="email" type="email" autocomplete="email"></label>
+      <div class="row2">
+        <label for="f-goal"><span data-i18n="fGoal">Cilj</span>
+          <select id="f-goal" name="cilj">
+            <option value="mrsavljenje" data-i18n="f1t">Mršavljenje</option>
+            <option value="masa" data-i18n="f2t">Mišićna masa</option>
+            <option value="funkcionalni" data-i18n="f3t">Funkcionalni trening</option>
+            <option value="pocetnik" data-i18n="f4t">Početnici</option>
+          </select></label>
+        <label for="f-plan"><span data-i18n="fPlan">Paket</span>
+          <select id="f-plan" name="paket">
+            <option value="free" data-i18n="optFree">Besplatan prvi trening</option>
+            <option value="personal" data-i18n="p2t">Personalni</option>
+            <option value="group" data-i18n="p3t">Duo &amp; grupa</option>
+            <option value="online" data-i18n="p1t">Online plan</option>
+          </select></label>
+      </div>
+      <label for="f-msg"><span data-i18n="fMsg">Poruka</span><textarea id="f-msg" name="poruka" data-i18n-ph="fMsgPh" placeholder="Napiši iskustvo, povrede i koji termini ti odgovaraju."></textarea></label>
+      <label class="check" for="f-first"><input type="checkbox" id="f-first" checked><span data-i18n="fFirst">Prvi put treniram sa trenerom</span></label>
+      <button class="btn btn-primary" type="submit" id="sendBtn" data-i18n="fSend">Pošalji upit</button>
+      <div id="status" hidden></div>
+    </form>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2 data-i18n="finTitle">Prvi korak je jedan trening</h2>
+    <a class="btn" href="#kontakt" data-i18n="heroCta1">Besplatan prvi trening</a>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© <span id="yr"></span> Filip · <span id="gymName"></span>, Ćuprija</span>
+    <span data-i18n="footR">Personalni trener · Online coaching</span>
+  </div>
+</footer>
+
+<script>
+/* ====== PODEŠAVANJA — ovde upiši prave podatke ====== */
+const CONFIG = {
+  email:     "aleksadizajn1@gmail.com",  // na ovu adresu stižu upiti sa sajta
+  phone:     "+381 60 000 0000",
+  whatsapp:  "381600000000",              // broj bez + i razmaka
+  viber:     "+381600000000",
+  instagram: "filip.trener",
+  gym:       "Power Gym",                 // naziv teretane (primer)
+  address:   "Ćuprija"
+};
+/* ==================================================== */
+
+const T = {
+ sr:{},
+ en:{
+  promo:"Your first session is free",promoLink:"book a slot",
+  nAbout:"About",nServices:"Services",nPrices:"Pricing",nResults:"Results",nSchedule:"Schedule",nContact:"Contact",ctaShort:"Book",
+  heroEyebrow:"Personal trainer · Ćuprija",heroSub:"Strength. Conditioning. Results you can see in the mirror.",
+  heroLead:"One-on-one, partner and online training. A plan built for your body, your schedule and your goal, whether you're losing weight, building muscle or stepping into a gym for the first time.",
+  heroCta1:"Free first session",heroCta2:"See packages",phHero:"Photo of Filip",heroTag:"8+ years in the gym",
+  st1:"clients",st2:"years of experience",st3:"sessions coached",st4:"areas of focus",
+  abEyebrow:"About me",abTitle:"I train people, not just muscles",
+  abP1:"I'm <strong>Filip</strong>, and I've been a personal trainer in Ćuprija for more than eight years. I started as a skinny kid who didn't know how to hold a barbell, so I know exactly what day one in the gym feels like.",
+  abP2:"My approach is simple: <strong>proper technique, gradual overload and a plan you can actually follow</strong>. We log every session, track progress and adjust the program when your body asks for it.",
+  c1:"Certified fitness trainer",c2:"Functional training",c3:"Sports nutrition basics",c4:"First aid",phAbout:"Filip coaching",
+  f1t:"Weight loss",f1p:"Strength and conditioning combined to burn fat while keeping muscle.",
+  f2t:"Muscle gain",f2p:"Progressive overload and a clear week-by-week plan for size and strength.",
+  f3t:"Functional training",f3p:"Mobility, power and endurance for everyday life and sport.",
+  f4t:"Beginners",f4p:"We learn technique from zero, without fear or injuries. Nobody judges you here.",
+  svEyebrow:"Services",svTitle:"Choose how you train",
+  s1t:"1-on-1 personal training",s1p:"The whole hour is about you. I correct your form on every set and guide you through the plan.",s1a:"Initial assessment and measurements",s1b:"Program tailored to your goal",s1c:"Weekly progress tracking",
+  s2t:"Partner & small group",s2p:"Train with a friend, partner or a crew of up to 4. More motivation, lower price.",s2a:"2 to 4 people per session",s2b:"Circuit and functional workouts",s2c:"Shared goal, personal attention",
+  s3t:"Online coaching",s3p:"Train wherever you are while I follow every step through your plan and regular check-ins.",s3a:"Monthly training plan",s3b:"Video technique review",s3c:"Weekly check-in via messages",
+  prEyebrow:"Pricing",prTitle:"Monthly packages",prLead:"Prices are per month. Gym membership is not included.",
+  p1k:"Online",p1t:"Online plan",perMonth:"RSD / month",p1a:"Individual training plan",p1b:"Video technique review",p1c:"Weekly check-in",p1d:"Message support",choose:"Choose package",
+  popular:"Most popular",p2k:"1-on-1",p2t:"Personal",p2a:"12 one-on-one sessions (3× a week)",p2b:"Initial assessment and measurements",p2c:"Program that evolves with your progress",p2d:"Support between sessions",
+  p3k:"Partner / group",p3t:"Duo & group",perPerson:"RSD / person",p3a:"12 sessions per month",p3b:"2 to 4 people per group",p3c:"Functional and circuit training",p3d:"Measurements at start and end of month",
+  noteB:"Single session:",noteT:"1,500 RSD. The first session and assessment are free, no commitment.",
+  rsEyebrow:"Transformations",rsTitle:"Client results",before:"Before",after:"After",sample:"Example",sampleQ:"Example review",
+  t1w:"16 weeks",t1p:"Weight loss with 3 sessions a week and simple eating habits.",
+  t2w:"6 months",t2p:"Muscle gain and a squat that went from 60 to 110 kg.",
+  t3w:"12 weeks",t3p:"A complete beginner who now trains on her own 4 times a week.",
+  q1:"“A client review goes here, e.g. what the first session was like and what changed after a few months.”",
+  q2:"“Second review: what the client values most about working with Filip, technique, motivation or the plan.”",
+  q3:"“Third review: a concrete result, such as kilograms lost or a new personal record.”",
+  q1a:"Client name · package",q2a:"Client name · package",q3a:"Client name · package",
+  scEyebrow:"Schedule",scTitle:"Weekly slots",scLead:"Sessions are booked in advance. Get in touch to check which slots are free this week.",
+  time:"Time",d1:"Mon",d2:"Tue",d3:"Wed",d4:"Thu",d5:"Fri",d6:"Sat",lgGr:"Group",lgNote:"Sunday: rest day",
+  ctEyebrow:"Contact",ctTitle:"Book your free first session",ctLead:"Send a request or reach me directly. I reply the same day.",
+  fName:"Full name",fPhone:"Phone",fEmail:"Email",fGoal:"Goal",fPlan:"Package",optFree:"Free first session",fMsg:"Message",
+  fMsgPh:"Tell me about your experience, any injuries and which times suit you.",fFirst:"This is my first time training with a coach",fSend:"Send request",
+  finTitle:"The first step is one session",footR:"Personal trainer · Online coaching",
+  chPhone:"Phone",chEmail:"Email",chIg:"Instagram",chWa:"WhatsApp",chVi:"Viber",chLoc:"Location",copy:"Copy",copied:"Copied",
+  sending:"Sending…",errReq:"Please enter your name and phone number.",
+  okMsg:"Request sent. Filip will get back to you soon.",
+  failMsg:"The request couldn't be sent from this page. Send it directly instead:",
+  mailBtn:"Open email",waBtn:"Send on WhatsApp",copyMsg:"Copy message"
+ }
+};
+const SRX = {chPhone:"Telefon",chEmail:"Email",chIg:"Instagram",chWa:"WhatsApp",chVi:"Viber",chLoc:"Lokacija",copy:"Kopiraj",copied:"Kopirano",
+  sending:"Šaljem…",errReq:"Upiši ime i broj telefona.",okMsg:"Upit je poslat. Filip će ti se javiti uskoro.",
+  failMsg:"Upit nije mogao da se pošalje sa ove stranice. Pošalji ga direktno:",mailBtn:"Otvori email",waBtn:"Pošalji na WhatsApp",copyMsg:"Kopiraj poruku"};
+
+// capture Serbian originals from the markup
+document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n; if(!(k in T.sr)) T.sr[k]=el.textContent;});
+document.querySelectorAll("[data-i18n-html]").forEach(el=>{T.sr[el.dataset.i18nHtml]=el.innerHTML;});
+document.querySelectorAll("[data-i18n-ph]").forEach(el=>{T.sr[el.dataset.i18nPh]=el.placeholder;});
+Object.assign(T.sr,SRX);
+
+let lang="sr";
+try{const s=localStorage.getItem("filip-lang"); if(s==="en"||s==="sr") lang=s;}catch(e){}
+const t=k=>(T[lang][k]??T.sr[k]??k);
+
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{el.textContent=t(el.dataset.i18n)});
+  document.querySelectorAll("[data-i18n-html]").forEach(el=>{el.innerHTML=t(el.dataset.i18nHtml)});
+  document.querySelectorAll("[data-i18n-ph]").forEach(el=>{el.placeholder=t(el.dataset.i18nPh)});
+  document.getElementById("btnSR").setAttribute("aria-pressed",lang==="sr");
+  document.getElementById("btnEN").setAttribute("aria-pressed",lang==="en");
+  document.getElementById("menuBtn").textContent=lang==="sr"?"MENI":"MENU";
+  renderTicker();renderSchedule();renderChannels();
+}
+function setLang(l){lang=l;try{localStorage.setItem("filip-lang",l)}catch(e){};applyLang();}
+document.getElementById("btnSR").onclick=()=>setLang("sr");
+document.getElementById("btnEN").onclick=()=>setLang("en");
+
+// mobile menu
+const menuBtn=document.getElementById("menuBtn"),navLinks=document.getElementById("navLinks");
+menuBtn.onclick=()=>{const o=navLinks.classList.toggle("open");menuBtn.setAttribute("aria-expanded",o)};
+navLinks.querySelectorAll("a").forEach(a=>a.onclick=()=>{navLinks.classList.remove("open");menuBtn.setAttribute("aria-expanded",false)});
+
+// ticker
+function renderTicker(){
+  const w=lang==="sr"?["Snaga","Kondicija","Mršavljenje","Mišićna masa","Tehnika","Disciplina","Ćuprija"]:["Strength","Conditioning","Weight loss","Muscle gain","Technique","Discipline","Ćuprija"];
+  const html=w.map(x=>`<span>${x}</span>`).join("");
+  document.getElementById("ticker").innerHTML=html+html;
+}
+
+// schedule (P = 1 na 1, G = grupa, O = online, - = zauzeto/slobodno)
+const SCHED=[
+ ["07:00",["P","P","P","P","P","G"]],
+ ["08:00",["P","G","P","G","P","G"]],
+ ["10:00",["O","P","O","P","O","P"]],
+ ["17:00",["P","P","P","P","P","-"]],
+ ["18:00",["G","P","G","P","G","-"]],
+ ["19:00",["P","G","P","G","P","-"]],
+ ["20:00",["P","P","P","P","-","-"]]
+];
+function renderSchedule(){
+  const lab={P:"1 na 1",G:t("lgGr"),O:"Online"},cls={P:"s-pt",G:"s-gr",O:"s-on"};
+  if(lang==="en") lab.P="1-on-1";
+  document.getElementById("schedBody").innerHTML=SCHED.map(([h,d])=>`<tr><td>${h}</td>${d.map(c=>c==="-"?`<td><span class="slot s-x">—</span></td>`:`<td><span class="slot ${cls[c]}">${lab[c]}</span></td>`).join("")}</tr>`).join("");
+  document.querySelector(".legend .s-pt").textContent=lab.P;
+}
+
+// contact channels
+const IC={
+ phone:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
+ mail:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/>',
+ ig:'<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6"/>',
+ chat:'<path d="M21 11.5a8.4 8.4 0 0 1-12.6 7.3L3 21l2.2-5.4A8.4 8.4 0 1 1 21 11.5z"/>',
+ pin:'<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>'
+};
+function ch(href,icon,label,value){
+  const tag=href?"a":"div",attrs=href?` href="${href}" target="_blank" rel="noopener"`:"";
+  return `<${tag} class="ch"${attrs}><span class="ico"><svg viewBox="0 0 24 24">${IC[icon]}</svg></span><div><small>${label}</small><strong>${value}</strong></div></${tag}>`;
+}
+function renderChannels(){
+  document.getElementById("channels").innerHTML=
+    ch("https://wa.me/"+CONFIG.whatsapp,"chat",t("chWa"),CONFIG.phone)+
+    ch("","chat",t("chVi"),CONFIG.viber)+
+    ch("https://instagram.com/"+CONFIG.instagram,"ig",t("chIg"),"@"+CONFIG.instagram)+
+    ch("","phone",t("chPhone"),CONFIG.phone)+
+    ch("","mail",t("chEmail"),CONFIG.email)+
+    ch("","pin",t("chLoc"),CONFIG.gym+", "+CONFIG.address);
+}
+document.getElementById("gymName").textContent=CONFIG.gym;
+document.getElementById("yr").textContent=new Date().getFullYear();
+
+// package buttons preselect the form
+document.querySelectorAll("[data-plan]").forEach(b=>b.addEventListener("click",()=>{document.getElementById("f-plan").value=b.dataset.plan}));
+
+// form: sends to CONFIG.email via FormSubmit; falls back to direct channels
+const form=document.getElementById("form"),status=document.getElementById("status"),sendBtn=document.getElementById("sendBtn");
+function buildMessage(d){
+  return `Novi upit sa sajta\nIme: ${d.ime}\nTelefon: ${d.telefon}\nEmail: ${d.email||"-"}\nCilj: ${d.cilj}\nPaket: ${d.paket}\nPrvi put sa trenerom: ${d.prvi}\nPoruka: ${d.poruka||"-"}`;
+}
+form.addEventListener("submit",async e=>{
+  e.preventDefault();
+  const g=id=>document.getElementById(id);
+  const d={ime:g("f-name").value.trim(),telefon:g("f-phone").value.trim(),email:g("f-email").value.trim(),
+    cilj:g("f-goal").selectedOptions[0].textContent,paket:g("f-plan").selectedOptions[0].textContent,
+    prvi:g("f-first").checked?"da":"ne",poruka:g("f-msg").value.trim()};
+  status.hidden=false;
+  if(!d.ime||!d.telefon){status.className="status warn";status.textContent=t("errReq");return;}
+  sendBtn.disabled=true;sendBtn.textContent=t("sending");
+  let ok=false;
+  try{
+    const r=await fetch("https://formsubmit.co/ajax/"+encodeURIComponent(CONFIG.email),{
+      method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify({...d,_subject:"Novi upit sa sajta: "+d.ime,_template:"table",_captcha:"false"})});
+    const j=await r.json().catch(()=>({}));
+    ok=r.ok&&String(j.success)!=="false";
+  }catch(err){ok=false}
+  sendBtn.disabled=false;sendBtn.textContent=t("fSend");
+  if(ok){status.className="status ok";status.textContent=t("okMsg");form.reset();return;}
+  const msg=buildMessage(d);
+  status.className="status warn";
+  status.innerHTML=`<span></span><div class="acts"><a class="btn btn-primary" target="_blank" rel="noopener"></a><a class="btn btn-ghost"></a><button type="button" class="btn btn-ghost"></button></div><small style="color:var(--muted)"></small>`;
+  status.querySelector("span").textContent=t("failMsg");
+  const [wa,ml]=status.querySelectorAll("a"),cp=status.querySelector("button");
+  wa.href="https://wa.me/"+CONFIG.whatsapp+"?text="+encodeURIComponent(msg);wa.textContent=t("waBtn");
+  ml.href="mailto:"+CONFIG.email+"?subject="+encodeURIComponent("Upit: "+d.ime)+"&body="+encodeURIComponent(msg);ml.textContent=t("mailBtn");
+  cp.textContent=t("copyMsg");
+  status.querySelector("small").textContent=CONFIG.email+" · "+CONFIG.phone;
+  cp.onclick=()=>{navigator.clipboard.writeText(msg).then(()=>{cp.textContent=t("copied")}).catch(()=>{cp.textContent=CONFIG.email})};
+});
+
+// count-up + reveal (content stays visible at rest)
+const io="IntersectionObserver" in window?new IntersectionObserver(es=>es.forEach(en=>{
+  if(!en.isIntersecting)return;const el=en.target;io.unobserve(el);
+  if(el.dataset.count){const end=+el.dataset.count,suf=el.textContent.replace(/[\d.,]/g,"");let s=null;
+    const step=ts=>{s??=ts;const p=Math.min((ts-s)/1200,1);el.textContent=Math.round(end*(1-Math.pow(1-p,3)))+suf;if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step);}
+  else el.classList.remove("pre");
+}),{threshold:.2}):null;
+if(io&&!matchMedia("(prefers-reduced-motion: reduce)").matches){
+  document.querySelectorAll("[data-count]").forEach(el=>io.observe(el));
+  document.querySelectorAll(".reveal").forEach(el=>{if(el.getBoundingClientRect().top>innerHeight){el.classList.add("pre");io.observe(el)}});
+}
+
+applyLang();
+</script>
+
+</body>
+</html>
